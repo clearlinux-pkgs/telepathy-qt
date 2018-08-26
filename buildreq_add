@@ -1,0 +1,8 @@
+# This file contains additional build requirements that did not get
+# picked up automatically. One name per line, no whitespace.
+buildreq-kde
+farstream-dev
+dbus-dev
+python-core
+python-dev
+dbus-glib-dev

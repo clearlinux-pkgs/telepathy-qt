@@ -1,0 +1,8 @@
+--- telepathy-qt-0.9.7/tools/xincludator.py~	2016-06-12 11:04:05.000000000 +0000
++++ telepathy-qt-0.9.7/tools/xincludator.py	2018-08-26 17:43:00.412490653 +0000
+@@ -1,4 +1,4 @@
+-#!/usr/bin/python
++#!/usr/bin/python2
+ 
+ from sys import argv, stdout, stderr
+ import codecs, locale

@@ -1,0 +1,8 @@
+# This file contains pkgconfig build requirements that get picked up
+# but are undesirable. One entry per line, no whitespace.
+dbus-glib-1=${DBusGLib_FIND_VERSION}
+dbus-glib-1>=${DBusGLib_FIND_VERSION}
+farstream-0.2>=${FARSTREAM_MIN_VERSION}
+telepathy-farstream
+telepathy-farstream>=${TELEPATHY_FARSTREAM_MIN_VERSION}
+telepathy-glib>=${TELEPATHY_GLIB_MIN_VERSION}
