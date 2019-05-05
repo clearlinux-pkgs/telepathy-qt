@@ -6,22 +6,21 @@
 #
 Name     : telepathy-qt
 Version  : 0.9.7
-Release  : 2
+Release  : 3
 URL      : https://telepathy.freedesktop.org/releases/telepathy-qt/telepathy-qt-0.9.7.tar.gz
 Source0  : https://telepathy.freedesktop.org/releases/telepathy-qt/telepathy-qt-0.9.7.tar.gz
 Source99 : https://telepathy.freedesktop.org/releases/telepathy-qt/telepathy-qt-0.9.7.tar.gz.asc
-Summary  : Qt Telepathy Service side bindings
+Summary  : A library for Qt-based Telepathy clients
 Group    : Development/Tools
 License  : LGPL-2.1
-Requires: telepathy-qt-lib
-Requires: telepathy-qt-license
+Requires: telepathy-qt-license = %{version}-%{release}
 BuildRequires : buildreq-cmake
 BuildRequires : buildreq-kde
 BuildRequires : dbus-dev
 BuildRequires : dbus-glib-dev
 BuildRequires : doxygen
+BuildRequires : extra-cmake-modules pkgconfig(glib-2.0)
 BuildRequires : farstream-dev
-BuildRequires : libjpeg-turbo-dev
 BuildRequires : libxml2-dev
 BuildRequires : perl
 BuildRequires : pkg-config
@@ -49,20 +48,11 @@ This is a library for Qt-based Telepathy clients.
 %package dev
 Summary: dev components for the telepathy-qt package.
 Group: Development
-Requires: telepathy-qt-lib
-Provides: telepathy-qt-devel
+Provides: telepathy-qt-devel = %{version}-%{release}
+Requires: telepathy-qt = %{version}-%{release}
 
 %description dev
 dev components for the telepathy-qt package.
-
-
-%package lib
-Summary: lib components for the telepathy-qt package.
-Group: Libraries
-Requires: telepathy-qt-license
-
-%description lib
-lib components for the telepathy-qt package.
 
 
 %package license
@@ -82,24 +72,45 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1535306024
-mkdir clr-build
+export SOURCE_DATE_EPOCH=1557100660
+mkdir -p clr-build
 pushd clr-build
+export AR=gcc-ar
+export RANLIB=gcc-ranlib
+export NM=gcc-nm
+export CFLAGS="$CFLAGS -O3 -ffat-lto-objects -flto=4 "
+export FCFLAGS="$CFLAGS -O3 -ffat-lto-objects -flto=4 "
+export FFLAGS="$CFLAGS -O3 -ffat-lto-objects -flto=4 "
+export CXXFLAGS="$CXXFLAGS -O3 -ffat-lto-objects -flto=4 "
 %cmake .. -DPYTHON_EXECUTABLE=/usr/bin/python2
 make  %{?_smp_mflags}
 popd
 
 %install
-export SOURCE_DATE_EPOCH=1535306024
+export SOURCE_DATE_EPOCH=1557100660
 rm -rf %{buildroot}
-mkdir -p %{buildroot}/usr/share/doc/telepathy-qt
-cp COPYING %{buildroot}/usr/share/doc/telepathy-qt/COPYING
+mkdir -p %{buildroot}/usr/share/package-licenses/telepathy-qt
+cp COPYING %{buildroot}/usr/share/package-licenses/telepathy-qt/COPYING
 pushd clr-build
 %make_install
 popd
 
 %files
 %defattr(-,root,root,-)
+/builddir/build/BUILD/telepathy-qt-0.9.7/clr-build/lib64/cmake/TelepathyQt5/TelepathyQt5Config.cmake
+/builddir/build/BUILD/telepathy-qt-0.9.7/clr-build/lib64/cmake/TelepathyQt5/TelepathyQt5ConfigVersion.cmake
+/builddir/build/BUILD/telepathy-qt-0.9.7/clr-build/lib64/cmake/TelepathyQt5/TelepathyQt5Targets-relwithdebinfo.cmake
+/builddir/build/BUILD/telepathy-qt-0.9.7/clr-build/lib64/cmake/TelepathyQt5/TelepathyQt5Targets.cmake
+/builddir/build/BUILD/telepathy-qt-0.9.7/clr-build/lib64/cmake/TelepathyQt5Service/TelepathyQt5ServiceConfig.cmake
+/builddir/build/BUILD/telepathy-qt-0.9.7/clr-build/lib64/cmake/TelepathyQt5Service/TelepathyQt5ServiceConfigVersion.cmake
+/builddir/build/BUILD/telepathy-qt-0.9.7/clr-build/lib64/libtelepathy-qt5-service.so
+/builddir/build/BUILD/telepathy-qt-0.9.7/clr-build/lib64/libtelepathy-qt5-service.so.0
+/builddir/build/BUILD/telepathy-qt-0.9.7/clr-build/lib64/libtelepathy-qt5-service.so.0.0.9.7
+/builddir/build/BUILD/telepathy-qt-0.9.7/clr-build/lib64/libtelepathy-qt5.so
+/builddir/build/BUILD/telepathy-qt-0.9.7/clr-build/lib64/libtelepathy-qt5.so.0
+/builddir/build/BUILD/telepathy-qt-0.9.7/clr-build/lib64/libtelepathy-qt5.so.0.0.9.7
+/builddir/build/BUILD/telepathy-qt-0.9.7/clr-build/lib64/pkgconfig/TelepathyQt5.pc
+/builddir/build/BUILD/telepathy-qt-0.9.7/clr-build/lib64/pkgconfig/TelepathyQt5Service.pc
 
 %files dev
 %defattr(-,root,root,-)
@@ -513,24 +524,7 @@ popd
 /usr/include/telepathy-qt5/TelepathyQt/tube-channel.h
 /usr/include/telepathy-qt5/TelepathyQt/types.h
 /usr/include/telepathy-qt5/TelepathyQt/utils.h
-/usr/lib64/cmake/TelepathyQt5/TelepathyQt5Config.cmake
-/usr/lib64/cmake/TelepathyQt5/TelepathyQt5ConfigVersion.cmake
-/usr/lib64/cmake/TelepathyQt5/TelepathyQt5Targets-relwithdebinfo.cmake
-/usr/lib64/cmake/TelepathyQt5/TelepathyQt5Targets.cmake
-/usr/lib64/cmake/TelepathyQt5Service/TelepathyQt5ServiceConfig.cmake
-/usr/lib64/cmake/TelepathyQt5Service/TelepathyQt5ServiceConfigVersion.cmake
-/usr/lib64/libtelepathy-qt5-service.so
-/usr/lib64/libtelepathy-qt5.so
-/usr/lib64/pkgconfig/TelepathyQt5.pc
-/usr/lib64/pkgconfig/TelepathyQt5Service.pc
-
-%files lib
-%defattr(-,root,root,-)
-/usr/lib64/libtelepathy-qt5-service.so.0
-/usr/lib64/libtelepathy-qt5-service.so.0.0.9.7
-/usr/lib64/libtelepathy-qt5.so.0
-/usr/lib64/libtelepathy-qt5.so.0.0.9.7
 
 %files license
-%defattr(-,root,root,-)
-/usr/share/doc/telepathy-qt/COPYING
+%defattr(0644,root,root,0755)
+/usr/share/package-licenses/telepathy-qt/COPYING
