@@ -1,0 +1,1 @@
+mv %{buildroot}//builddir/build/BUILD/telepathy-qt-*/clr-build/* %{buildroot}/usr
