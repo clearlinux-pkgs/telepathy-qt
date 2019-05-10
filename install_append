@@ -1,1 +1,5 @@
-mv %{buildroot}//builddir/build/BUILD/telepathy-qt-*/clr-build/* %{buildroot}/usr
+mkdir -p %{buildroot}/usr
+mv %{buildroot}/builddir/build/BUILD/telepathy-qt-*/clr-build/* %{buildroot}/usr
+for f in %{buildroot}/usr/lib64/cmake/TelepathyQt5/* ; do
+	sed -i 's|builddir/build/BUILD/telepathy-qt-.*/clr-build|usr|' $f
+done

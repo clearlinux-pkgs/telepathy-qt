@@ -6,11 +6,11 @@
 #
 Name     : telepathy-qt
 Version  : 0.9.7
-Release  : 4
+Release  : 10
 URL      : https://telepathy.freedesktop.org/releases/telepathy-qt/telepathy-qt-0.9.7.tar.gz
 Source0  : https://telepathy.freedesktop.org/releases/telepathy-qt/telepathy-qt-0.9.7.tar.gz
 Source99 : https://telepathy.freedesktop.org/releases/telepathy-qt/telepathy-qt-0.9.7.tar.gz.asc
-Summary  : A library for Qt-based Telepathy clients
+Summary  : Qt Telepathy Service side bindings
 Group    : Development/Tools
 License  : LGPL-2.1
 Requires: telepathy-qt-lib = %{version}-%{release}
@@ -83,7 +83,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1557111849
+export SOURCE_DATE_EPOCH=1557527845
 mkdir -p clr-build
 pushd clr-build
 export AR=gcc-ar
@@ -94,11 +94,11 @@ export FCFLAGS="$CFLAGS -O3 -ffat-lto-objects -flto=4 "
 export FFLAGS="$CFLAGS -O3 -ffat-lto-objects -flto=4 "
 export CXXFLAGS="$CXXFLAGS -O3 -ffat-lto-objects -flto=4 "
 %cmake .. -DPYTHON_EXECUTABLE=/usr/bin/python2
-make  %{?_smp_mflags}
+make  %{?_smp_mflags} VERBOSE=1
 popd
 
 %install
-export SOURCE_DATE_EPOCH=1557111849
+export SOURCE_DATE_EPOCH=1557527845
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/telepathy-qt
 cp COPYING %{buildroot}/usr/share/package-licenses/telepathy-qt/COPYING
@@ -106,7 +106,11 @@ pushd clr-build
 %make_install
 popd
 ## install_append content
-mv %{buildroot}//builddir/build/BUILD/telepathy-qt-*/clr-build/* %{buildroot}/usr
+mkdir -p %{buildroot}/usr
+mv %{buildroot}/builddir/build/BUILD/telepathy-qt-*/clr-build/* %{buildroot}/usr
+for f in %{buildroot}/usr/lib64/cmake/TelepathyQt5/* ; do
+sed -i 's|builddir/build/BUILD/telepathy-qt-.*/clr-build|usr|' $f
+done
 ## install_append end
 
 %files
