@@ -1,0 +1,40 @@
+From 251c52355f335eb7914a850e3f4a7281ad9621a8 Mon Sep 17 00:00:00 2001
+From: Brandon Hong <brandon.hong@intel.com>
+Date: Fri, 20 Sep 2019 14:32:14 +0800
+Subject: [PATCH] Fix wrong version number matching
+
+As the CMake MATCH takes regex parameter, sub-string could unexpectedtly
+be matched. QT verseion 5.12.4, for instance, will be matched with not just
+for QT5 but also for QT4 as well due to the sub-string '4' which is unexpected.
+This patch resolves the issue by constraining version number testing for
+Major version numbers only.
+
+Signed-off-by: Brandon Hong <brandon.hong@intel.com>
+---
+ cmake/modules/FindQt.cmake | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/cmake/modules/FindQt.cmake b/cmake/modules/FindQt.cmake
+index 5cb2836..cc8ac7e 100644
+--- a/cmake/modules/FindQt.cmake
++++ b/cmake/modules/FindQt.cmake
+@@ -26,12 +26,12 @@ IF(NOT QT5_INSTALLED)
+     # now find qmake
+     IF(QT_QMAKE_EXECUTABLE)
+         EXEC_PROGRAM(${QT_QMAKE_EXECUTABLE} ARGS "-query QT_VERSION" OUTPUT_VARIABLE QTVERSION)
+-        IF(QTVERSION MATCHES "4.*")
++        IF(QTVERSION MATCHES "^4.*")
+             SET(QT4_INSTALLED TRUE)
+-        ENDIF(QTVERSION MATCHES "4.*")
+-        IF(QTVERSION MATCHES "5.*")
++        ENDIF(QTVERSION MATCHES "^4.*")
++        IF(QTVERSION MATCHES "^5.*")
+             SET(QT5_INSTALLED TRUE)
+-        ENDIF(QTVERSION MATCHES "5.*")
++        ENDIF(QTVERSION MATCHES "^5.*")
+     ENDIF(QT_QMAKE_EXECUTABLE)
+ ENDIF(NOT QT5_INSTALLED)
+ 
+-- 
+2.23.0
+

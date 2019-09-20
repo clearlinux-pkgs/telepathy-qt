@@ -6,7 +6,7 @@
 #
 Name     : telepathy-qt
 Version  : 0.9.7
-Release  : 10
+Release  : 11
 URL      : https://telepathy.freedesktop.org/releases/telepathy-qt/telepathy-qt-0.9.7.tar.gz
 Source0  : https://telepathy.freedesktop.org/releases/telepathy-qt/telepathy-qt-0.9.7.tar.gz
 Source99 : https://telepathy.freedesktop.org/releases/telepathy-qt/telepathy-qt-0.9.7.tar.gz.asc
@@ -39,6 +39,7 @@ BuildRequires : python-core
 BuildRequires : python-dev
 BuildRequires : python3
 Patch1: py2.patch
+Patch2: 0001-Fix-wrong-version-number-matching.patch
 
 %description
 =============
@@ -77,6 +78,7 @@ license components for the telepathy-qt package.
 %prep
 %setup -q -n telepathy-qt-0.9.7
 %patch1 -p1
+%patch2 -p1
 
 %build
 export http_proxy=http://127.0.0.1:9/
