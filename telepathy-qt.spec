@@ -6,7 +6,7 @@
 #
 Name     : telepathy-qt
 Version  : 0.9.7
-Release  : 13
+Release  : 14
 URL      : https://telepathy.freedesktop.org/releases/telepathy-qt/telepathy-qt-0.9.7.tar.gz
 Source0  : https://telepathy.freedesktop.org/releases/telepathy-qt/telepathy-qt-0.9.7.tar.gz
 Source1  : https://telepathy.freedesktop.org/releases/telepathy-qt/telepathy-qt-0.9.7.tar.gz.asc
