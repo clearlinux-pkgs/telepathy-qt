@@ -5,11 +5,11 @@
 # Source0 file verified with key 0xFE0B6D736B1195ED (akulichalexander@gmail.com)
 #
 Name     : telepathy-qt
-Version  : 0.9.7
-Release  : 16
-URL      : https://telepathy.freedesktop.org/releases/telepathy-qt/telepathy-qt-0.9.7.tar.gz
-Source0  : https://telepathy.freedesktop.org/releases/telepathy-qt/telepathy-qt-0.9.7.tar.gz
-Source1  : https://telepathy.freedesktop.org/releases/telepathy-qt/telepathy-qt-0.9.7.tar.gz.asc
+Version  : 0.9.8
+Release  : 17
+URL      : https://telepathy.freedesktop.org/releases/telepathy-qt/telepathy-qt-0.9.8.tar.gz
+Source0  : https://telepathy.freedesktop.org/releases/telepathy-qt/telepathy-qt-0.9.8.tar.gz
+Source1  : https://telepathy.freedesktop.org/releases/telepathy-qt/telepathy-qt-0.9.8.tar.gz.asc
 Summary  : Qt Telepathy Service side bindings
 Group    : Development/Tools
 License  : LGPL-2.1
@@ -33,20 +33,17 @@ BuildRequires : pkgconfig(gio-unix-2.0)
 BuildRequires : pkgconfig(glib-2.0)
 BuildRequires : pkgconfig(gobject-2.0)
 BuildRequires : pkgconfig(gstreamer-1.0)
-BuildRequires : pkgconfig(libxml-2.0)
 BuildRequires : pkgconfig(telepathy-glib)
-BuildRequires : python-core
-BuildRequires : python-dev
 BuildRequires : python3
-BuildRequires : qtbase-dev
-Patch1: py2.patch
-Patch2: 0001-Fix-wrong-version-number-matching.patch
+BuildRequires : python3-core
+BuildRequires : python3-dev
+BuildRequires : qtbase-dev mesa-dev
 
 %description
 =============
 telepathy-qt
 =============
-This is a library for Qt-based Telepathy clients.
+This is a library for Qt-based Telepathy clients and services.
 
 %package dev
 Summary: dev components for the telepathy-qt package.
@@ -77,46 +74,37 @@ license components for the telepathy-qt package.
 
 
 %prep
-%setup -q -n telepathy-qt-0.9.7
-cd %{_builddir}/telepathy-qt-0.9.7
-%patch1 -p1
-%patch2 -p1
+%setup -q -n telepathy-qt-0.9.8
+cd %{_builddir}/telepathy-qt-0.9.8
 
 %build
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1602608622
+export SOURCE_DATE_EPOCH=1632524219
 mkdir -p clr-build
 pushd clr-build
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
 export NM=gcc-nm
-export CFLAGS="$CFLAGS -O3 -ffat-lto-objects -flto=4 "
-export FCFLAGS="$FFLAGS -O3 -ffat-lto-objects -flto=4 "
-export FFLAGS="$FFLAGS -O3 -ffat-lto-objects -flto=4 "
-export CXXFLAGS="$CXXFLAGS -O3 -ffat-lto-objects -flto=4 "
-%cmake .. -DPYTHON_EXECUTABLE=/usr/bin/python2
+export CFLAGS="$CFLAGS -O3 -ffat-lto-objects -flto=auto "
+export FCFLAGS="$FFLAGS -O3 -ffat-lto-objects -flto=auto "
+export FFLAGS="$FFLAGS -O3 -ffat-lto-objects -flto=auto "
+export CXXFLAGS="$CXXFLAGS -O3 -ffat-lto-objects -flto=auto "
+%cmake ..
 make  %{?_smp_mflags}
 popd
 
 %install
-export SOURCE_DATE_EPOCH=1602608622
+export SOURCE_DATE_EPOCH=1632524219
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/telepathy-qt
-cp %{_builddir}/telepathy-qt-0.9.7/COPYING %{buildroot}/usr/share/package-licenses/telepathy-qt/9a1929f4700d2407c70b507b3b2aaf6226a9543c
+cp %{_builddir}/telepathy-qt-0.9.8/COPYING %{buildroot}/usr/share/package-licenses/telepathy-qt/9a1929f4700d2407c70b507b3b2aaf6226a9543c
 pushd clr-build
 %make_install
 popd
-## install_append content
-mkdir -p %{buildroot}/usr
-mv %{buildroot}/builddir/build/BUILD/telepathy-qt-*/clr-build/* %{buildroot}/usr
-for f in %{buildroot}/usr/lib64/cmake/TelepathyQt5/* ; do
-sed -i 's|builddir/build/BUILD/telepathy-qt-.*/clr-build|usr|' $f
-done
-## install_append end
 
 %files
 %defattr(-,root,root,-)
@@ -546,10 +534,10 @@ done
 
 %files lib
 %defattr(-,root,root,-)
-/usr/lib64/libtelepathy-qt5-service.so.0
-/usr/lib64/libtelepathy-qt5-service.so.0.0.9.7
+/usr/lib64/libtelepathy-qt5-service.so.0.0.9.8
+/usr/lib64/libtelepathy-qt5-service.so.1
 /usr/lib64/libtelepathy-qt5.so.0
-/usr/lib64/libtelepathy-qt5.so.0.0.9.7
+/usr/lib64/libtelepathy-qt5.so.0.0.9.8
 
 %files license
 %defattr(0644,root,root,0755)

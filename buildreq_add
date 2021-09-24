@@ -3,6 +3,6 @@
 buildreq-kde
 farstream-dev
 dbus-dev
-python-core
-python-dev
+python3-core
+python3-dev
 dbus-glib-dev
